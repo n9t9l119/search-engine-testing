@@ -1,28 +1,53 @@
 import pytest
 from selenium import webdriver
-from PageObjects import BasePage, SearchPage, ResultPage
+from typing import Dict, Tuple
+
+from PageObjects import SearchPage, ResultPage
 from TestConfig import TestConfig
 
+
+@pytest.fixture(scope="session")
+def browser():
+    driver = webdriver.Chrome()
+    yield driver
+
+
+@pytest.fixture(scope="session")
+def yandex_search_page(browser):
+    return SearchPage(browser, TestConfig.SEARCH_ENGINE)
+
+
+@pytest.fixture(scope="session")
+def yandex_result_page(browser):
+    return ResultPage(browser, TestConfig.SEARCH_ENGINE)
+
+
+#  Следующий код взят с ресурса https://docs.pytest.org/en/stable/example/simple.html
+
+
 # сохраняем историю падений в разрезе имен классов и индексов в параметризации (если она используется)
-_test_failed_incremental: [str, [[int, ...], str]] = {}
+
+
+# store history of failures per test class name and per index in parametrize (if parametrize used)
+_test_failed_incremental: Dict[str, Dict[Tuple[int, ...], str]] = {}
 
 
 def pytest_runtest_makereport(item, call):
     if "incremental" in item.keywords:
-        # используется маркер incremental
+        # incremental marker is used
         if call.excinfo is not None:
-            # тест упал
-            # извлекаем из теста имя класса
+            # the test has failed
+            # retrieve the class name of the test
             cls_name = str(item.cls)
-            # извлекаем индексы теста (если вместе с  incremental используется параметризация)
+            # retrieve the index of the test (if parametrize is used in combination with incremental)
             parametrize_index = (
                 tuple(item.callspec.indices.values())
                 if hasattr(item, "callspec")
                 else ()
             )
-            # извлекаем имя тестовой функции
+            # retrieve the name of the test function
             test_name = item.originalname or item.name
-            # сохраняем в _test_failed_incremental оригинальное имя упавшего теста
+            # store in _test_failed_incremental the original name of the failed test
             _test_failed_incremental.setdefault(cls_name, {}).setdefault(
                 parametrize_index, test_name
             )
@@ -30,32 +55,18 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_runtest_setup(item):
     if "incremental" in item.keywords:
-        # извлекаем из теста имя класса
+        # retrieve the class name of the test
         cls_name = str(item.cls)
-        # проверяем, падал ли предыдущий тест на этом классе
+        # check if a previous test has failed for this class
         if cls_name in _test_failed_incremental:
-            # извлекаем индексы теста (если вместе с  incremental используется параметризация)
+            # retrieve the index of the test (if parametrize is used in combination with incremental)
             parametrize_index = (
                 tuple(item.callspec.indices.values())
                 if hasattr(item, "callspec")
                 else ()
             )
-            # извлекаем имя первой тестовой функции, которая должна упасть для этого имени класса и индекса
+            # retrieve the name of the first test function to fail for this class name and index
             test_name = _test_failed_incremental[cls_name].get(parametrize_index, None)
-            # если нашли такое имя, значит, тест падал для такой комбинации класса & фукнкции
+            # if name found, test has failed for the combination of class name & test name
             if test_name is not None:
                 pytest.xfail("previous test failed ({})".format(test_name))
-
-
-
-
-@pytest.fixture(scope="session")
-def browser():
-    driver = webdriver.Chrome()
-    return driver
-
-
-@pytest.fixture(scope="session")
-def yandex_search_page(browser):
-    return SearchPage(browser, TestConfig.SEARCH_ENGINE)
-
