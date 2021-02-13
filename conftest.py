@@ -1,5 +1,6 @@
 import pytest
 from selenium import webdriver
+from configparser import ConfigParser
 from typing import Dict, Tuple
 
 from PageObjects import SearchPage, ResultPage
@@ -23,7 +24,8 @@ def yandex_result_page(browser):
 
 
 #  Следующий код взят с ресурса https://docs.pytest.org/en/stable/example/simple.html
-
+#  Строка 40 была изменена для продолжения тестирования в случае, когда какой-либо тест
+#  пропускается
 
 # сохраняем историю падений в разрезе имен классов и индексов в параметризации (если она используется)
 
@@ -35,7 +37,7 @@ _test_failed_incremental: Dict[str, Dict[Tuple[int, ...], str]] = {}
 def pytest_runtest_makereport(item, call):
     if "incremental" in item.keywords:
         # incremental marker is used
-        if call.excinfo is not None:
+        if call.excinfo is not None and not call.excinfo.errisinstance(pytest.skip.Exception):
             # the test has failed
             # retrieve the class name of the test
             cls_name = str(item.cls)

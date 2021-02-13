@@ -10,7 +10,7 @@ class TestConfig:
     search_page_input_locator = (By.XPATH, "//*[@id='text']")
     search_button_locator = (By.XPATH, "//div[@class = 'search2__button']/button[text()='Найти']")
 
-    result_page_input_locator = (By.XPATH, "//div[contains(@class, 'search2__input')]//input[@name='text']")
+    result_page_input_locator = (By.XPATH, f"//div[@class='search2__input']//input[@value='{REQUEST}']")
     result_list_locator = (By.XPATH, '//*[@id="search-result"]//li')
     result_relevance_locator = (By.XPATH, "//*[contains(text(),'ViPNet')]/parent::div")
 

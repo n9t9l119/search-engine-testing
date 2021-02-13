@@ -1,4 +1,3 @@
-import time
 import pytest
 
 from TestConfig import TestConfig
@@ -10,7 +9,7 @@ class TestUserHandling:
     def test_open_start_page(self, browser, yandex_search_page):
         yandex_search_page.open_base_url()
 
-    def test_being_on_desired_page(self, browser):
+    def test_being_on_desired_page(self, browser, config):
         assert browser.current_url == TestConfig.SEARCH_ENGINE
         assert "Яндекс" in browser.title
 
@@ -21,11 +20,13 @@ class TestUserHandling:
 
     def test_send_query(self, yandex_search_page):
         yandex_search_page.search(search_button_locator=TestConfig.search_button_locator)
-        time.sleep(1)
 
-    def test_request_correctness(self, yandex_result_page):
-        current_inpute_value = yandex_result_page.get_search_input_value(TestConfig.result_page_input_locator)
-        assert current_inpute_value == TestConfig.REQUEST
+    def test_valid_input_presence(self, yandex_result_page):
+        yandex_result_page.find_element(TestConfig.result_page_input_locator)
+
+    @pytest.mark.skipif(TestConfig.SEARCH_ENGINE != "https://yandex.ru/", reason="Test only for yandex.ru")
+    def test_current_url(self, browser):
+        assert browser.current_url == "https://yandex.ru/search/?lr=2&text=" + TestConfig.REQUEST.replace(' ', '%20')
 
     def test_search_results_correctness(self, yandex_result_page):
         assert yandex_result_page.get_results_count() > 0
