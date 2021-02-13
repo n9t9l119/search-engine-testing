@@ -9,9 +9,9 @@ class TestUserHandling:
     def test_open_start_page(self, browser, yandex_search_page):
         yandex_search_page.open_base_url()
 
-    def test_being_on_desired_page(self, browser, config):
+    def test_being_on_desired_page(self, browser):
         assert browser.current_url == TestConfig.SEARCH_ENGINE
-        assert "Яндекс" in browser.title
+        assert TestConfig.WORD_IN_TITLE in browser.title
 
     def test_presence_of_DOM_search_elems(self, yandex_search_page):
         assert bool(yandex_search_page.find_element(TestConfig.search_container_locator))
@@ -20,6 +20,7 @@ class TestUserHandling:
 
     def test_send_query(self, yandex_search_page):
         yandex_search_page.search(search_button_locator=TestConfig.search_button_locator)
+
 
     def test_valid_input_presence(self, yandex_result_page):
         yandex_result_page.find_element(TestConfig.result_page_input_locator)
