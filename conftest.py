@@ -1,6 +1,5 @@
 import pytest
 from selenium import webdriver
-from configparser import ConfigParser
 from typing import Dict, Tuple
 
 from PageObjects import SearchPage, ResultPage
@@ -14,12 +13,12 @@ def browser():
 
 
 @pytest.fixture(scope="session")
-def yandex_search_page(browser):
+def search_page(browser):
     return SearchPage(browser, TestConfig.SEARCH_ENGINE)
 
 
 @pytest.fixture(scope="session")
-def yandex_result_page(browser):
+def result_page(browser):
     return ResultPage(browser, TestConfig.SEARCH_ENGINE)
 
 

@@ -5,7 +5,7 @@ class TestConfig:
     REQUEST = "ViPNet Coordinator HW5000"
     SEARCH_ENGINE = "https://yandex.ru/"
     LINK_TO_FIND = "https://infotecs.ru/upload/iblock/db0/ViPNet_Coordinator_HW_5000_web_july_2018.pdf"
-    WORD_IN_TITLE = "Яндекс"
+    TEXT_IN_TITLE = "Яндекс"
 
     search_container_locator = (By.XPATH, "//*[contains(@class, 'container__search')]")
     search_page_input_locator = (By.XPATH, "//*[@id='text']")
@@ -26,7 +26,7 @@ class TestConfig:
 #     SEARCH_ENGINE = "https://www.google.com/"
 #     LINK_TO_FIND = "https://infotecs.ru/upload/iblock/db0/ViPNet_Coordinator_HW_5000_web_july_2018.pdf"
 #
-#     WORD_IN_TITLE="Google"
+#     TEXT_IN_TITLE="Google"
 #
 #     search_container_locator = (By.XPATH, "//*[contains(@class, 'RNNXgb')]")
 #     search_page_input_locator = (By.XPATH, "//*[contains(@class, 'gLFyf')][contains(@class, 'gsfi')]")
