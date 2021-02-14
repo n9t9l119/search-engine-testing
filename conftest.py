@@ -22,11 +22,8 @@ def result_page(browser):
     return ResultPage(browser, TestConfig.SEARCH_ENGINE)
 
 
-#  Следующий код взят с ресурса https://docs.pytest.org/en/stable/example/simple.html
-#  Строка 40 была изменена для продолжения тестирования в случае, когда какой-либо тест
-#  пропускается
-
-# сохраняем историю падений в разрезе имен классов и индексов в параметризации (если она используется)
+# The following code is taken from the resource https://docs.pytest.org/en/stable/example/simple.html
+# Line 36 has been changed to continue testing in case any test is skipped
 
 
 # store history of failures per test class name and per index in parametrize (if parametrize used)

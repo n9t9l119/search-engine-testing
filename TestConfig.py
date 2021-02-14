@@ -19,7 +19,7 @@ class TestConfig:
     required_site_link_locator = (By.XPATH, f"//a[contains(@href,'{LINK_TO_FIND}')]")
     required_site_content_locator = (By.XPATH, "//embed[contains(@type,'application/pdf')]")
 
-# # Пример конфига для тестировния сценария на Google
+# # Example of a config for testing a script on Google
 #
 # class TestConfig:
 #     REQUEST = "ViPNet Coordinator HW5000"
