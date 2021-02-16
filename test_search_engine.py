@@ -24,21 +24,6 @@ class TestUserHandling:
             assert TestConfig.TEXT_IN_TITLE in browser.title, \
                 f"Config TEXT_IN_TITLE {TestConfig.TEXT_IN_TITLE} not in {browser.title}"
 
-    @allure.story('Check the presence of the necessary DOM elements of the search engine')
-    def test_presence_of_DOM_search_elems(self, search_page):
-        with allure.step('Check the presence of the search container'):
-            assert bool(search_page.find_element(
-                TestConfig.search_container_locator)), \
-                f"element by locator {TestConfig.search_container_locator} not found"
-
-        with allure.step('Check the presence of the input'):
-            assert bool(search_page.find_element(TestConfig.search_page_input_locator)), \
-                f"element by locator {TestConfig.search_page_input_locator} not found"
-
-        with allure.step('Check the presence of the button'):
-            assert bool(search_page.find_elements(TestConfig.search_button_locator)), \
-                f"element by locator {TestConfig.search_button_locator} not found"
-
     @allure.story('Sending a request')
     def test_send_query(self, browser, search_page):
         search_page.search(search_button_locator=TestConfig.search_button_locator)
@@ -71,11 +56,6 @@ class TestUserHandling:
         with allure.step('Check the presence of the required site in the search results'):
             assert result_page.get_results_count(TestConfig.required_site_locator) > 0, \
                 f"there is no results by locator {TestConfig.required_site_locator}"
-
-    @allure.story('Check the presence of the target link in the search results')
-    def test_find_link(self, result_page):
-        assert bool(result_page.find_element(TestConfig.required_site_link_locator)), \
-            f"there is no results by locator {TestConfig.required_site_link_locator}"
 
     @allure.link(name="The link you need to be on", url=TestConfig.LINK_TO_FIND)
     @allure.story('Check the correctness of the click on the link')

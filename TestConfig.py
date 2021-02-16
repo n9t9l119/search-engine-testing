@@ -7,7 +7,6 @@ class TestConfig:
     LINK_TO_FIND = "https://infotecs.ru/upload/iblock/db0/ViPNet_Coordinator_HW_5000_web_july_2018.pdf"
     TEXT_IN_TITLE = "Яндекс"
 
-    search_container_locator = (By.XPATH, "//*[contains(@class, 'container__search')]")
     search_page_input_locator = (By.XPATH, "//*[@id='text']")
     search_button_locator = (By.XPATH, "//div[@class = 'search2__button']/button[text()='Найти']")
 
